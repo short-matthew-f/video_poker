@@ -12,20 +12,10 @@ class Card
     :nine, :ten, :jack, :queen, :king, :ace
   ]
 
-  CARD_STRINGS = {
-    deuce:  ["┌─────┐", "│2   X│", "│     │", "│     │", "│X   2│", "└─────┘"],
-    three:  ["┌─────┐", "│3   X│", "│     │", "│     │", "│X   3│", "└─────┘"],
-    four:   ["┌─────┐", "│4   X│", "│     │", "│     │", "│X   4│", "└─────┘"],
-    five:   ["┌─────┐", "│5   X│", "│     │", "│     │", "│X   5│", "└─────┘"],
-    six:    ["┌─────┐", "│6   X│", "│     │", "│     │", "│X   6│", "└─────┘"],
-    seven:  ["┌─────┐", "│7   X│", "│     │", "│     │", "│X   7│", "└─────┘"],
-    eight:  ["┌─────┐", "│8   X│", "│     │", "│     │", "│X   8│", "└─────┘"],
-    nine:   ["┌─────┐", "│9   X│", "│     │", "│     │", "│X   9│", "└─────┘"],
-    ten:    ["┌─────┐", "│10  X│", "│     │", "│     │", "│X  10│", "└─────┘"],
-    jack:   ["┌─────┐", "│J   X│", "│     │", "│     │", "│X   J│", "└─────┘"],
-    queen:  ["┌─────┐", "│Q   X│", "│     │", "│     │", "│X   Q│", "└─────┘"],
-    king:   ["┌─────┐", "│K   X│", "│     │", "│     │", "│X   K│", "└─────┘"],
-    ace:    ["┌─────┐", "│A   X│", "│     │", "│     │", "│X   A│", "└─────┘"]
+  RANK_STRING = { 
+    deuce: "2", three: "3", four: "4", five: "5",
+    six: "6", seven: "7", eight: "8", nine: "9",
+    ten: "10", jack: "J", queen: "Q", king: "K", ace: "A"
   }
 
   ACE_LOW_RANKS = RANKS.rotate(-1)
@@ -39,13 +29,37 @@ class Card
   def color
     [:spades, :clubs].include?(suit) ? :black : :red
   end
-
+  
   def to_s
-    CARD_STRINGS[rank].map { |i| i.gsub("X", SUIT_SYMBOLS[suit].colorize(color)) }  
+    to_strings.join("\n")
+  end
+
+  def to_strings
+    suit_s = SUIT_SYMBOLS[suit].colorize(color)
+    rank_ul = RANK_STRING[rank].ljust(2).colorize(color)
+    rank_lr = RANK_STRING[rank].rjust(2).colorize(color)
+    
+    [
+      "┌─────┐", 
+      "│YY  X│", 
+      "│     │", 
+      "│     │", 
+      "│X  ZZ│", 
+      "└─────┘"
+    ].map do |card_row|
+      card_row
+        .gsub("X", suit_s)
+        .gsub("YY", rank_ul)
+        .gsub("ZZ", rank_lr)
+    end
   end
 
   def to_h
     {rank: rank, suit: suit}
+  end
+  
+  def dup
+    Card.new(rank, suit)
   end
 
   def self.rank_value(rank)

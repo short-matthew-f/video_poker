@@ -10,7 +10,15 @@ class Deck
   end
 
   attr_reader :cards
-
+  
+  def dup
+    Deck.new(cards.map(&:dup), false)
+  end
+  
+  def choose(n)
+    @cards.combination(n)
+  end
+  
   def initialize(cards = Deck.all_cards, shuff = true)
     @cards = cards
 

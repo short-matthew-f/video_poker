@@ -103,8 +103,7 @@ module HandDescribable
     end
   end
 
-  def beats?(other_hand)
-    # first_glance looks at things like :two_pair vs. :full_house
+  def <=>(other_hand)
     first_glance = VALUES.index(self.value) <=> VALUES.index(other_hand.value)
     case first_glance
     when -1
@@ -112,13 +111,8 @@ module HandDescribable
     when 1
       return 1
     when 0
-      # second_glance only happens if the hands have the same value
       return self.compare_to(other_hand)
     end
-  end
-
-  def <=>(other_hand)
-    self.beats?(other_hand)
   end
 end
 

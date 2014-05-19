@@ -47,7 +47,7 @@ class Hand
   end
 
   def to_s
-    strings = to_s_sort!.map(&:to_s)
+    strings = to_s_sort!.map(&:to_strings)
 
     (0...6).map do |i|
       (0...hand_size).map { |j| strings[j][i] }.join(' ')
