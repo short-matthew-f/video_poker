@@ -33,6 +33,9 @@ class Card
   def to_s
     to_strings.join("\n")
   end
+  
+  CARD_HEIGHT = 6
+  CARD_WIDTH = 7
 
   def to_strings
     suit_s = SUIT_SYMBOLS[suit].colorize(color)

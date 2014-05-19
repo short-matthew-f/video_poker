@@ -49,9 +49,13 @@ class Hand
   def to_s
     strings = to_s_sort!.map(&:to_strings)
 
-    (0...6).map do |i|
+    (0...Card::CARD_HEIGHT).map do |i|
       (0...hand_size).map { |j| strings[j][i] }.join(' ')
-    end.join("\n") + "\n" + (1..hand_size).map { |i| "  "+"#{i}".rjust(2)+"   " }.join(' ')
+    end.join("\n") + 
+      "\n" +
+    (1..hand_size).map do |i| 
+      "#{i}".center(Card::CARD_WIDTH)
+    end.join(' ')
   end
 
   def draw(deck, number)
