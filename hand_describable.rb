@@ -1,4 +1,4 @@
-# the purpose of this module is to give names to each hand, such as 
+# the purpose of this module is to give names to each hand, such as
 # full house, three of a kind, etc.  Also to compare two hands by description.
 
 module HandDescribable
@@ -115,6 +115,10 @@ module HandDescribable
       # second_glance only happens if the hands have the same value
       return self.compare_to(other_hand)
     end
+  end
+
+  def <=>(other_hand)
+    self.beats?(other_hand)
   end
 end
 

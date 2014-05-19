@@ -102,13 +102,24 @@ class Poker
   def display_footer
     "You currently have a #{player.hand.value.to_s.gsub('_', ' ')}"
   end
-  
-  # def sort(hands)
-  #   hands.sort { |x,y| x.beats?(y) }
-  # end
+
+  def print_results_for(hands)
+    hands.each_index do |i|
+      puts hands[i]
+      if i < hands.count - 1
+        case hands[i] <=> hands[i+1]
+        when 0
+          puts "is a #{hands[i].value} and ties with #{hands[i+1].value}"
+        when -1
+          puts "is a #{hands[i].value} and loses to #{hands[i+1].value}"
+        end
+      end
+    end
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
   poker = Poker.new
   poker.play
 end
+
