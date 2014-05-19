@@ -5,7 +5,20 @@ require './player.rb'
 require 'colorize'
 
 class Poker
-  attr_reader :deck, :player
+  PAYOUTS = {
+    high_card: 0,
+    one_pair: 1,
+    two_pair: 1,
+    three_of_a_kind: 3,
+    straight: 5,
+    flush: 8,
+    full_house: 10,
+    four_of_a_kind: 25,
+    straight_flush: 50,
+    royal_flush: 250
+  }
+
+  attr_reader :deck, :player, :bet
 
   def initialize
     @deck = Deck.new
@@ -13,7 +26,9 @@ class Poker
   end
 
   def play
-    while true
+    puts "Welcome to Draw Poker\n\n"
+    while player.pot > 0
+      system('clear')
       deal_cards
       display_header
       set_bet
@@ -47,7 +62,13 @@ class Poker
   end
 
   def announce_winnings
+    hand_type = player.hand.value
+    winnings = bet * PAYOUTS[hand_type]
+    puts "Your hand was a #{hand_type.to_s.gsub('_', ' ')}."
+    puts "You win #{winnings}, hit enter to continue."
+    gets
 
+    player.pay_bet(winnings)
   end
 
   def deal_cards
@@ -57,18 +78,18 @@ class Poker
   def set_bet
     begin
       print "Enter bet > "
-      bet = Integer(gets.chomp)
+      @bet = Integer(gets.chomp)
       raise "Not enough in your bankroll to cover the bet." if bet > player.pot
     rescue StandardError => e
       puts e.message
       retry
     end
 
-    player.place_bet(bet)
+    player.place_bet(@bet)
   end
 
   def display_header
-    puts "Welcome to Draw Poker\n\nBankroll is: #{player.pot}"
+    puts "Bankroll is: #{player.pot}"
   end
 
   def display_hand

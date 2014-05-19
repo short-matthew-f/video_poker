@@ -25,7 +25,7 @@ class Card
     jack:   ["┌─────┐", "│J   X│", "│     │", "│     │", "│X   J│", "└─────┘"],
     queen:  ["┌─────┐", "│Q   X│", "│     │", "│     │", "│X   Q│", "└─────┘"],
     king:   ["┌─────┐", "│K   X│", "│     │", "│     │", "│X   K│", "└─────┘"],
-    ace:    ["┌─────┐", "│A   X│", "│     │", "│     │", "│X   A│", "└─────┘"],
+    ace:    ["┌─────┐", "│A   X│", "│     │", "│     │", "│X   A│", "└─────┘"]
   }
 
   ACE_LOW_RANKS = RANKS.rotate(-1)
@@ -36,9 +36,11 @@ class Card
     @rank, @suit = rank, suit
   end
 
-  def to_s
-    color = [:spades, :clubs].include?(suit) ? :black : :red
+  def color
+    [:spades, :clubs].include?(suit) ? :black : :red
+  end
 
+  def to_s
     CARD_STRINGS[rank].map { |i| i.gsub("X", SUIT_SYMBOLS[suit].colorize(color)) }  
   end
 

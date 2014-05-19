@@ -19,7 +19,7 @@ class Player
   end
 
   def new_hand(deck)
-    hand.fold(deck) unless hand.empty?
+    fold(deck) unless hand.empty?
 
     hand.draw(deck, 5)
   end
@@ -34,5 +34,9 @@ class Player
 
   def place_bet(bet)
     @pot -= bet
+  end
+
+  def pay_bet(winnings)
+    @pot += winnings
   end
 end
