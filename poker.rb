@@ -50,7 +50,10 @@ class Poker
     begin
       print "Which cards do you wish to discard? (e.g. 1,3,4,5) > "
       hold = gets.chomp.split(',').map {|i| Integer(i) }
+      hold.each { |el| raise "InvalidInput" if el < 1 || el > 5}
     rescue StandardError => e
+      retry
+    rescue InvalidInput
       retry
     end
 
